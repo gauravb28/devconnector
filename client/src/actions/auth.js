@@ -12,6 +12,8 @@ import {
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
+const PORT = process.env.PORT || 5000;
+
 // Load User
 export const loadUser = () => async (dispatch) => {
   if (localStorage.getItem('token')) {
@@ -19,7 +21,7 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get('http://localhost:5000/api/auth');
+    const res = await axios.get(`http://localhost:${PORT}/api/auth`);
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -44,7 +46,7 @@ export const register =
 
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/users',
+        `http://localhost:${PORT}/api/users`,
         body,
         config
       );
@@ -77,7 +79,7 @@ export const login = (email, password) => async (dispatch) => {
 
   try {
     const res = await axios.post(
-      'http://localhost:5000/api/auth',
+      `http://localhost:${PORT}/api/auth`,
       body,
       config
     );
