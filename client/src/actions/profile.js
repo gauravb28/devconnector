@@ -13,7 +13,11 @@ import {
 // Get current user profile
 export const getCurrentProfile = () => async (dispatch) => {
   try {
-    const res = await axios.get('http://localhost:5000/api/profile/me');
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/profile`
+        : 'http://localhost:5000/api/profile';
+    const res = await axios.get(`${url}/me`);
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
@@ -30,7 +34,11 @@ export const getCurrentProfile = () => async (dispatch) => {
 export const getProfiles = () => async (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
   try {
-    const res = await axios.get('http://localhost:5000/api/profile');
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/profile`
+        : 'http://localhost:5000/api/profile';
+    const res = await axios.get(url);
     dispatch({
       type: GET_PROFILES,
       payload: res.data,
@@ -46,9 +54,11 @@ export const getProfiles = () => async (dispatch) => {
 // Get profile by id
 export const getProfileById = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/api/profile/user/${userId}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/profile`
+        : 'http://localhost:5000/api/profile';
+    const res = await axios.get(`${url}/user/${userId}`);
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
@@ -64,9 +74,11 @@ export const getProfileById = (userId) => async (dispatch) => {
 // Get Github repos
 export const getGithubRepos = (username) => async (dispatch) => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/api/profile/github/${username}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/profile`
+        : 'http://localhost:5000/api/profile';
+    const res = await axios.get(`${url}/github/${username}`);
     dispatch({
       type: GET_REPOS,
       payload: res.data,
@@ -89,11 +101,11 @@ export const createProfile =
           'Content-Type': 'application/json',
         },
       };
-      const res = await axios.post(
-        'http://localhost:5000/api/profile',
-        formData,
-        config
-      );
+      const url =
+        process.env.NODE_ENV === 'production'
+          ? `https://devconnector-social-media.herokuapp.com/api/profile`
+          : 'http://localhost:5000/api/profile';
+      const res = await axios.post(url, formData, config);
 
       dispatch({
         type: GET_PROFILE,
@@ -126,11 +138,11 @@ export const addExperience = (formData, history) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.put(
-      'http://localhost:5000/api/profile/experience',
-      formData,
-      config
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/profile`
+        : 'http://localhost:5000/api/profile';
+    const res = await axios.put(`${url}/experience`, formData, config);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -159,11 +171,11 @@ export const addEducation = (formData, history) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.put(
-      'http://localhost:5000/api/profile/education',
-      formData,
-      config
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/profile`
+        : 'http://localhost:5000/api/profile';
+    const res = await axios.put(`${url}/education`, formData, config);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -187,9 +199,11 @@ export const addEducation = (formData, history) => async (dispatch) => {
 // Delete Experience
 export const deleteExperience = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(
-      `http://localhost:5000/api/profile/experience/${id}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/profile`
+        : 'http://localhost:5000/api/profile';
+    const res = await axios.delete(`${url}/experience/${id}`);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -207,9 +221,11 @@ export const deleteExperience = (id) => async (dispatch) => {
 // Delete Education
 export const deleteEducation = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(
-      `http://localhost:5000/api/profile/education/${id}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/profile`
+        : 'http://localhost:5000/api/profile';
+    const res = await axios.delete(`${url}/education/${id}`);
 
     dispatch({
       type: UPDATE_PROFILE,
@@ -228,7 +244,11 @@ export const deleteEducation = (id) => async (dispatch) => {
 export const deleteAccount = () => async (dispatch) => {
   try {
     if (window.confirm('Are you sure? This can NOT be undone!')) {
-      await axios.delete(`http://localhost:5000/api/profile`);
+      const url =
+        process.env.NODE_ENV === 'production'
+          ? `https://devconnector-social-media.herokuapp.com/api/profile`
+          : 'http://localhost:5000/api/profile';
+      await axios.delete(url);
 
       dispatch({ type: CLEAR_PROFILE });
       dispatch({ type: ACCOUNT_DELETED });

@@ -14,7 +14,11 @@ import {
 // Get Posts
 export const getPosts = () => async (dispatch) => {
   try {
-    const res = await axios.get('http://localhost:5000/api/posts');
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/posts`
+        : 'http://localhost:5000/api/posts';
+    const res = await axios.get(url);
     dispatch({
       type: GET_POSTS,
       payload: res.data,
@@ -30,9 +34,11 @@ export const getPosts = () => async (dispatch) => {
 // Add Like
 export const addLike = (postId) => async (dispatch) => {
   try {
-    const res = await axios.put(
-      `http://localhost:5000/api/posts/like/${postId}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/posts`
+        : 'http://localhost:5000/api/posts';
+    const res = await axios.put(`${url}/like/${postId}`);
     dispatch({
       type: UPDATE_LIKES,
       payload: { id: postId, likes: res.data },
@@ -48,9 +54,11 @@ export const addLike = (postId) => async (dispatch) => {
 // Remove Like
 export const removeLike = (postId) => async (dispatch) => {
   try {
-    const res = await axios.put(
-      `http://localhost:5000/api/posts/unlike/${postId}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/posts`
+        : 'http://localhost:5000/api/posts';
+    const res = await axios.put(`${url}/unlike/${postId}`);
     dispatch({
       type: UPDATE_LIKES,
       payload: { id: postId, likes: res.data },
@@ -66,7 +74,11 @@ export const removeLike = (postId) => async (dispatch) => {
 // Delete Post
 export const deletePost = (postId) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:5000/api/posts/${postId}`);
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/posts`
+        : 'http://localhost:5000/api/posts';
+    await axios.delete(`${url}/${postId}`);
     dispatch({
       type: DELETE_POST,
       payload: postId,
@@ -88,11 +100,11 @@ export const addPost = (formData) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.post(
-      'http://localhost:5000/api/posts',
-      formData,
-      config
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/posts`
+        : 'http://localhost:5000/api/posts';
+    const res = await axios.post(url, formData, config);
 
     dispatch({
       type: ADD_POST,
@@ -110,7 +122,11 @@ export const addPost = (formData) => async (dispatch) => {
 // Get Posts
 export const getPost = (id) => async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/posts/${id}`);
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/posts`
+        : 'http://localhost:5000/api/posts';
+    const res = await axios.get(`${url}/${id}`);
     dispatch({
       type: GET_POST,
       payload: res.data,
@@ -131,11 +147,11 @@ export const addComment = (postId, formData) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     };
-    const res = await axios.post(
-      `http://localhost:5000/api/posts/comment/${postId}`,
-      formData,
-      config
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/posts`
+        : 'http://localhost:5000/api/posts';
+    const res = await axios.post(`${url}/comment/${postId}`, formData, config);
 
     dispatch({
       type: ADD_COMMENT,
@@ -153,9 +169,11 @@ export const addComment = (postId, formData) => async (dispatch) => {
 // Delete Comment
 export const deleteComment = (postId, commentId) => async (dispatch) => {
   try {
-    await axios.delete(
-      `http://localhost:5000/api/posts/comment/${postId}/${commentId}`
-    );
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `https://devconnector-social-media.herokuapp.com/api/posts`
+        : 'http://localhost:5000/api/posts';
+    await axios.delete(`${url}/comment/${postId}/${commentId}`);
 
     dispatch({
       type: REMOVE_COMMENT,
